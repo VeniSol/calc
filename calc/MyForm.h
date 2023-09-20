@@ -515,7 +515,7 @@ namespace calc {
 			else
 				res = this->first_num / second;
 			break;
-
+			///
 		}
 		this->is_equal = true;
 		
