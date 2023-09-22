@@ -411,7 +411,7 @@ namespace calc {
 			this->button20->Name = L"button20";
 			this->button20->Size = System::Drawing::Size(65, 65);
 			this->button20->TabIndex = 20;
-			this->button20->Text = L".";
+			this->button20->Text = L",";
 			this->button20->UseVisualStyleBackColor = false;
 			this->button20->Click += gcnew System::EventHandler(this, &MyForm::button20_Click);
 			// 
