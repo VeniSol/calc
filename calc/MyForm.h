@@ -55,9 +55,9 @@ namespace calc {
 	private: System::Windows::Forms::Button^ button18;
 	private: System::Windows::Forms::Button^ button20;
 	private: System::Windows::Forms::Button^ button21;
-	private:int first_num;
-	private:char user_action=' ';
-	private:bool is_equal= false;
+	private:float first_num;
+	private:char user_action = ' ';
+	private:bool is_equal = false;
 
 	protected:
 
@@ -141,6 +141,7 @@ namespace calc {
 			this->button2->TabIndex = 2;
 			this->button2->Text = L"AC";
 			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
 			// button3
 			// 
@@ -172,6 +173,7 @@ namespace calc {
 			this->button4->TabIndex = 4;
 			this->button4->Text = L"+/-";
 			this->button4->UseVisualStyleBackColor = false;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
 			// 
 			// button5
 			// 
@@ -187,6 +189,7 @@ namespace calc {
 			this->button5->TabIndex = 5;
 			this->button5->Text = L"%";
 			this->button5->UseVisualStyleBackColor = false;
+			this->button5->Click += gcnew System::EventHandler(this, &MyForm::button5_Click);
 			// 
 			// button6
 			// 
@@ -410,6 +413,7 @@ namespace calc {
 			this->button20->TabIndex = 20;
 			this->button20->Text = L".";
 			this->button20->UseVisualStyleBackColor = false;
+			this->button20->Click += gcnew System::EventHandler(this, &MyForm::button20_Click);
 			// 
 			// button21
 			// 
@@ -470,7 +474,7 @@ namespace calc {
 	private: System::Void btn_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->label1->ForeColor = Color::White;
 		Button^ button = safe_cast<Button^>(sender);
-		if (this->label1->Text == "0"||is_equal) {
+		if (this->label1->Text == "0" || is_equal) {
 			this->label1->Text = button->Text;
 			is_equal = false;
 		}
@@ -492,20 +496,21 @@ namespace calc {
 		math('/');
 	}
 	private: System::Void math(char action) {
-		this->first_num = System::Convert::ToInt32(this->label1->Text);
+		this->first_num = System::Convert::ToDouble(this->label1->Text);
 		this->user_action = action;
 		this->label1->Text = "0";
 	}
 	private: System::Void button21_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (user_action == ' ')
 			return;
-		int second = System::Convert::ToInt32(this->label1->Text);
-		int res;
+		Double second = System::Convert::ToDouble(this->label1->Text);
+		Double res;
 		switch (this->user_action)
 		{
 		case'+':res = this->first_num + second; break;
 		case'-':res = this->first_num - second; break;
 		case'*':res = this->first_num * second; break;
+		case'%':res = this->first_num * second / 100; break;
 		case'/':
 			if (second == 0) {
 				this->label1->ForeColor = Color::IndianRed;
@@ -515,11 +520,37 @@ namespace calc {
 			else
 				res = this->first_num / second;
 			break;
-			//
+
 		}
 		this->is_equal = true;
-		
+
 		this->label1->Text = System::Convert::ToString(res);
+	}
+	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->label1->Text = "0";
+		this->label1->ForeColor = Color::White;
+		this->first_num = 0;
+		this->user_action = ' ';
+		this->is_equal = false;
+		;
+
+
+
+
+	}
+	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
+		Double  num = System::Convert::ToDouble(this->label1->Text);
+		num *= -1;
+		this->label1->Text = System::Convert::ToString(num);
+
+	}
+	private: System::Void button5_Click(System::Object^ sender, System::EventArgs^ e) {
+		math('%');
+	}
+	private: System::Void button20_Click(System::Object^ sender, System::EventArgs^ e) {
+		String^ text = this->label1->Text;
+		if (!text->Contains(","))
+			this->label1->Text = text + ",";
 	}
 	};
 }
